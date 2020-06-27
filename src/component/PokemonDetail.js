@@ -70,7 +70,7 @@ const PokemonDetail = (props) => {
         <div className="container">
        
         <div className="card">
-        <form>
+        <form className="pokemonDetailForm">
             <div className="form-group">
                 <label>Name</label>
                 <input onChange={handleNameChange} className="form-control" value={name} type="text" readOnly={!edit}/>    

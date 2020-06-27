@@ -8,7 +8,6 @@ const AddNewPokemon = () => {
     const [elementType, setElementType] = useState("");
     const [inputType, setInputType] = useState("");
   
-    const [value, setValue] = useState("")
     const [formData, setFormData] = useState({
         name: {
             elementType: 'input',
@@ -16,7 +15,12 @@ const AddNewPokemon = () => {
                 type: 'text',
                 label: 'Name'
             },
-            value: ''
+            value: '',
+            validation: {
+                required:true
+            },
+            valid:false,
+            touched:false
         },
         type: {
             elementType: 'input',
@@ -24,7 +28,12 @@ const AddNewPokemon = () => {
                 type:'text',
                 label: 'Type'
             },
-            value: []
+            value: [],
+            validation: {
+                required:true
+            },
+            valid:false,
+            touched:false
         },
         attackLevel: {
             elementType: 'input',
@@ -32,7 +41,12 @@ const AddNewPokemon = () => {
                 type: 'number',
                 label: 'Attack Level'
             },
-            value: 0
+            value: 0,
+            validation: {
+                required:true
+            },
+            valid:false,
+            touched:false
         },
         defenceLevel: {
             elementType: 'input',
@@ -40,7 +54,12 @@ const AddNewPokemon = () => {
                 type: 'number',
                 label: 'Defense Level'
             },
-            value: 0
+            value: 0,
+            validation: {
+                required:true
+            },
+            valid:false,
+            touched:false
         }
 
     })
@@ -65,11 +84,26 @@ const AddNewPokemon = () => {
               type:inputType,
               label:attr
           },
-          value:""
+          value:"",
+          validation: {
+              required:true
+          },
+          valid:false,
+          touched:false
       }}
       setFormData(newObj)
       setAttr("")
       setElementType("")
+    }
+
+    const checkValidity = (value, rules) => {
+        let isValid = false;
+
+        if(rules.required){
+            isValid = value.trim() !== '';
+        }
+
+        return isValid;
     }
     const inputChangeHandler = (event, inputIdentifier) => {
         event.preventDefault();
@@ -80,6 +114,8 @@ const AddNewPokemon = () => {
           ...updatedForm[inputIdentifier]
         }
         updatedFormElement.value = event.target.value;
+        updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
+        updatedFormElement.touched = true;
         updatedForm[inputIdentifier] = updatedFormElement;
         setFormData(updatedForm)
     }
@@ -100,17 +136,20 @@ const AddNewPokemon = () => {
         })
     }
     let form = (
-        <form className="inputForm" onSubmit={submitHandler}>
+        <form className="inputForm input" onSubmit={submitHandler}>
         <h4>Add New Pokemon</h4>
           {formElementArray.map(formElement => {
             return ( 
-                <div key={formElement.id} className="form-group">
+                <div key={formElement.id} className="form-group formGroup">
                 <Input 
                 className="form-control"
+                invalid={!formElement.config.valid}
                 elementType={formElement.config.elementType}
                 elementConfig={formElement.config.elementConfig}
                 value={formElement.config.value}
                 changed={(event) => inputChangeHandler(event, formElement.id)}
+                touched={formElement.config.touched}
+
                 />
                
                 </div>
@@ -124,20 +163,20 @@ const AddNewPokemon = () => {
     return (
         <div>
         <Header />
-        <div className="input">
                 {form}
+                <div className="input inputForm">
         <form className="inputForm">
         <h4>Add New Property</h4>
             <label>Attribute</label>
-            <input placeholder="Description,power..." value={attr} onChange={handleAttrChange} type="text" />
+            <input className="form-control"  required placeholder="Description,power..." value={attr} onChange={handleAttrChange} type="text" />
 
             <label>Element Type</label>
-            <input placeholder="input, textarea..." value={elementType} onChange={handleElementTypeChange} type="text" />
+            <input className="form-control" required placeholder="input, textarea..." value={elementType} onChange={handleElementTypeChange} type="text" />
 
             <label>Input Type</label>
-            <input placeholder="text, number..." value={inputType} onChange={handleInputTypeChange} type="text" />
+            <input className="form-control" required placeholder="text, number..." value={inputType} onChange={handleInputTypeChange} type="text" />
         
-            <button type="submit" onClick={handleButtonClick}>Submit</button>
+            <button className="btn btn-primary" type="submit" onClick={handleButtonClick}>Submit</button>
         </form>
         </div>
         </div>
