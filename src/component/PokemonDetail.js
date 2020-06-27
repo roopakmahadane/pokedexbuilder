@@ -13,8 +13,9 @@ const PokemonDetail = (props) => {
     const [edit, setEdit] = useState(false);
        
     useEffect(() => {
+        const params = props.match.params.id
         const pokemonDetails = data.filter((poke) => {
-            return poke.id == props.match.params.id
+            return (poke.id).toString() === (params).toString()
           }) 
           
           const p =pokemonDetails[0];
@@ -25,10 +26,9 @@ const PokemonDetail = (props) => {
           setAttack(p?.base?.Attack)
           setDefense(p?.base?.Defense)
 
-    },[])
+    },[props.match.params.id])
 
     useEffect(()=> {
-        console.log('state changed', attack)
     },[pokeDetail])
 
     const handleEdit = () => {
