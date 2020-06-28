@@ -153,7 +153,7 @@ const AddNewPokemon = () => {
 
     let form = (
         <form className="inputForm input" onSubmit={submitHandler}>
-            <h4>Add New Pokemon</h4>
+            <h4>Add New Pokémon</h4>
             {formElementArray.map(formElement => {
             return ( 
                 <div key={formElement.id} className="form-group formGroup">

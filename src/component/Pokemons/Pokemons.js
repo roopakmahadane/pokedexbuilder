@@ -47,9 +47,9 @@ const Layout = () => {
  
     return (
         <div className="container">
-            <h3>Pokemon List</h3>
+            <h3>Pokémon List</h3>
             <div className="input-group mb-3">
-                <input  className="form-control" type="text" placeholder="Search Pokemon" value={inputVal} onChange={inputChangeHandler}/>
+                <input  className="form-control" type="text" placeholder="Search Pokémon" value={inputVal} onChange={inputChangeHandler}/>
             </div>
             <ul className="list-group list-group-flush">
                 {filteredList.map(pokemon => {
