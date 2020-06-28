@@ -13,7 +13,7 @@ const Layout = () => {
             </nav>
             <nav className="navbar">
             <Link className="navbar-brand" to="/new">
-                Add new Pokemon
+                Add new Pokémon
             </Link>
             </nav>
         </div>
