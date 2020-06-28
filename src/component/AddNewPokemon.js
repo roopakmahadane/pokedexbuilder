@@ -141,6 +141,7 @@ const AddNewPokemon = () => {
             pokemonData[formElementIdentifier] = formData[formElementIdentifier].value;
         }
         console.log(pokemonData)
+        
     }
 
     const formElementArray = [];
