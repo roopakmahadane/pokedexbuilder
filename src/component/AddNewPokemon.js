@@ -7,7 +7,7 @@ const AddNewPokemon = () => {
     const [attr, setAttr] = useState("");
     const [elementType, setElementType] = useState("");
     const [inputType, setInputType] = useState("");
-  
+    const [formIsValid, setFormIsValid] = useState(false);
     const [formData, setFormData] = useState({
         name: {
             elementType: 'input',
@@ -68,14 +68,20 @@ const AddNewPokemon = () => {
         e.preventDefault();
         setAttr(e.target.value)
     }
+
+
     const handleElementTypeChange = (e) => {
         e.preventDefault();
         setElementType(e.target.value)
     }
+
+
     const handleInputTypeChange = (e) => {
         e.preventDefault();
         setInputType(e.target.value)
     }
+
+
     const handleButtonClick = (e) => {
         e.preventDefault();
       let newObj = {...formData , [attr] : {
@@ -105,6 +111,8 @@ const AddNewPokemon = () => {
 
         return isValid;
     }
+
+
     const inputChangeHandler = (event, inputIdentifier) => {
         event.preventDefault();
         const updatedForm = {
@@ -117,7 +125,13 @@ const AddNewPokemon = () => {
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedFormElement.touched = true;
         updatedForm[inputIdentifier] = updatedFormElement;
+       
+       let formIsValid = false;
+       for(let inputIdentifiers in updatedForm){
+        formIsValid = updatedForm[inputIdentifiers].valid
+       }
         setFormData(updatedForm)
+        setFormIsValid(formIsValid)
     }
 
     const submitHandler = (e) => {
@@ -128,6 +142,7 @@ const AddNewPokemon = () => {
         }
         console.log(pokemonData)
     }
+
     const formElementArray = [];
     for(let key in formData){
         formElementArray.push({
@@ -135,10 +150,11 @@ const AddNewPokemon = () => {
             config: formData[key]
         })
     }
+
     let form = (
         <form className="inputForm input" onSubmit={submitHandler}>
-        <h4>Add New Pokemon</h4>
-          {formElementArray.map(formElement => {
+            <h4>Add New Pokemon</h4>
+            {formElementArray.map(formElement => {
             return ( 
                 <div key={formElement.id} className="form-group formGroup">
                 <Input 
@@ -149,36 +165,35 @@ const AddNewPokemon = () => {
                 value={formElement.config.value}
                 changed={(event) => inputChangeHandler(event, formElement.id)}
                 touched={formElement.config.touched}
-
                 />
                
                 </div>
                )
           })}   
-          <button className="btn btn-primary">Add!</button>
+          <button disabled={!formIsValid} className="btn btn-primary">Add!</button>
         </form>
     )
 
  
     return (
         <div>
-        <Header />
-                {form}
-                <div className="input inputForm">
-        <form className="inputForm">
-        <h4>Add New Property</h4>
-            <label>Attribute</label>
-            <input className="form-control"  required placeholder="Description,power..." value={attr} onChange={handleAttrChange} type="text" />
+            <Header />
+            {form}
+            <div className="input inputForm">
+                <form className="inputForm">
+                <h4>Add New Property</h4>
+                    <label>Attribute</label>
+                    <input className="form-control"  required placeholder="Description,power..." value={attr} onChange={handleAttrChange} type="text" />
 
-            <label>Element Type</label>
-            <input className="form-control" required placeholder="input, textarea..." value={elementType} onChange={handleElementTypeChange} type="text" />
+                    <label>Element Type</label>
+                    <input className="form-control" required placeholder="input, textarea..." value={elementType} onChange={handleElementTypeChange} type="text" />
 
-            <label>Input Type</label>
-            <input className="form-control" required placeholder="text, number..." value={inputType} onChange={handleInputTypeChange} type="text" />
-        
-            <button className="btn btn-primary" type="submit" onClick={handleButtonClick}>Submit</button>
-        </form>
-        </div>
+                    <label>Input Type</label>
+                    <input className="form-control" required placeholder="text, number..." value={inputType} onChange={handleInputTypeChange} type="text" />
+                
+                    <button className="btn btn-primary" type="submit" onClick={handleButtonClick}>Submit</button>
+                </form>
+            </div>
         </div>
        
     )
